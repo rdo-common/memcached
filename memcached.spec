@@ -1,6 +1,6 @@
 Name:           memcached
 Version:        1.2.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -34,11 +34,11 @@ web applications by alleviating database load.
 
 make %{?_smp_mflags}
 
-# remove failing test that doesn't work in
-# build systems
-rm -f %{buildroot}/t/daemonize.t 
 
 %check
+# remove failing test that doesn't work in
+# build systems
+rm -f t/daemonize.t 
 make test
 
 %install
@@ -100,8 +100,8 @@ exit 0
 
 
 %changelog
-* Fri Jul 13 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-3
-- Remove test that fails in fedora build system
+* Fri Jul 13 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-4
+- Remove test that fails in fedora build system on ppc64
 
 * Sat Jul  7 2007 root <lindner@inuus.com> - 1.2.3-2
 - Upgrade to 1.2.3 upstream
