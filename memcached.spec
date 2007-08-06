@@ -1,6 +1,6 @@
 Name:           memcached
 Version:        1.2.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -105,7 +105,7 @@ exit 0
 
 
 %changelog
-* Mon Aug  6 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-5
+* Mon Aug  6 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-7
 - Fix problem with -P and -d flag combo on x86_64
 - Fix init script for FC-6
 
