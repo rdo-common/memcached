@@ -6,7 +6,7 @@
 # config: /etc/sysconfig/memcached
 
 # Standard LSB functions
-. /lib/lsb/init-functions
+#. /lib/lsb/init-functions
 
 # Source function library.
 . /etc/init.d/functions

@@ -1,6 +1,6 @@
 Name:           memcached
 Version:        1.2.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -100,6 +100,10 @@ exit 0
 
 
 %changelog
+* Mon Aug  6 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-5
+- Fix problem with -P and -d flag combo on x86_64
+- Fix init script for FC-6
+
 * Fri Jul 13 2007 Paul Lindner <lindner@inuus.com> - 1.2.3-4
 - Remove test that fails in fedora build system on ppc64
 
