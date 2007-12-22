@@ -1,6 +1,6 @@
 Name:           memcached
-Version:        1.2.3
-Release:        7%{?dist}
+Version:        1.2.4
+Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -12,7 +12,6 @@ Source0:        http://www.danga.com/memcached/dist/%{name}-%{version}.tar.gz
 Source1:        memcached.sysv
 
 # Fixes
-Patch1:		memcached-1.2.3-save_pid_fix.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -30,8 +29,6 @@ web applications by alleviating database load.
 
 %prep
 %setup -q
-%patch1 -p1
-
 
 
 %build
