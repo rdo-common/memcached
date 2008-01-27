@@ -7,7 +7,7 @@
 
 Name:           memcached
 Version:        1.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -30,7 +30,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libevent-devel
 BuildRequires:  perl(Test::More)
 
-Requires:       initscripts
+Requires: initscripts
+Requires: libevent
 Requires(pre):  shadow-utils
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig, /sbin/service
@@ -195,7 +196,10 @@ fi
 
 
 %changelog
-* Sat Dec 22 2007 Paul Lindner <lindner@mirth.inuus.com> - 1.2.4-2
+* Sun Jan 27 2008 Paul Lindner <lindner@inuus.com> - 1.2.4-3
+- Adjust libevent dependencies
+
+* Sat Dec 22 2007 Paul Lindner <lindner@inuus.com> - 1.2.4-2
 - Upgrade to memcached-1.2.4
 
 * Fri Sep 07 2007 Konstantin Ryabitsev <icon@fedoraproject.org> - 1.2.3-8
