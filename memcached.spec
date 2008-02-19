@@ -7,7 +7,7 @@
 
 Name:           memcached
 Version:        1.2.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -196,6 +196,9 @@ fi
 
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.2.4-4
+- Autorebuild for GCC 4.3
+
 * Sun Jan 27 2008 Paul Lindner <lindner@inuus.com> - 1.2.4-3
 - Adjust libevent dependencies
 
