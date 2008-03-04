@@ -6,8 +6,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.2.4
-Release:        4%{?dist}
+Version:        1.2.5
+Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -196,6 +196,9 @@ fi
 
 
 %changelog
+* Tue Mar  4 2008 Paul Lindner <lindner@inuus.com> - 1.2.5-1
+- Upgrade to memcached-1.2.5
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.2.4-4
 - Autorebuild for GCC 4.3
 
