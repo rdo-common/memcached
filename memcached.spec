@@ -6,8 +6,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.2.5
-Release:        2%{?dist}
+Version:        1.2.6
+Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -196,6 +196,9 @@ fi
 
 
 %changelog
+* Tue Jul 29 2008 Paul Lindner <lindner@inuus.com> - 1.2.6-1
+- Upgrade to memcached-1.2.6
+
 * Tue Mar  4 2008 Paul Lindner <lindner@inuus.com> - 1.2.5-1
 - Upgrade to memcached-1.2.5
 
