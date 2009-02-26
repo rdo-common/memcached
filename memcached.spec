@@ -7,7 +7,7 @@
 
 Name:           memcached
 Version:        1.2.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -196,6 +196,9 @@ fi
 
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Tue Jul 29 2008 Paul Lindner <lindner@inuus.com> - 1.2.6-1
 - Upgrade to memcached-1.2.6
 
