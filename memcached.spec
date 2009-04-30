@@ -6,8 +6,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.2.6
-Release:        2%{?dist}
+Version:        1.2.8
+Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -196,6 +196,10 @@ fi
 
 
 %changelog
+* Wed Apr 29 2009 Paul Lindner <lindner@inuus.com> - 1.2.8-1
+- Upgrade to memcached-1.2.8
+- Addresses CVE-2009-1255
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
