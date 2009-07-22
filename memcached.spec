@@ -6,7 +6,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.2.8
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -54,9 +54,17 @@ Requires:       %{name} = %{version}-%{release}
 Requires(post):  policycoreutils
 Requires(postun): policycoreutils
 
+
 %description selinux
 SELinux policy module supporting memcached.
 
+%package devel
+Summary:	Files needed for development using memcached protocol
+Group:		Development/Libraries 
+
+%description devel
+Install memcached-devel if you are developing C/C++ applications that require access to the
+memcached binary include files.
 
 %prep
 %setup -q
@@ -194,6 +202,9 @@ fi
 %doc SELinux/*.te SELinux/*.fc SELinux/*.if
 %{_datadir}/selinux/*/%{modulename}.pp
 
+%files devel
+%defattr(-,root,root,0755)
+%{_includedir}/memcached/*
 
 %changelog
 * Wed Apr 29 2009 Paul Lindner <lindner@inuus.com> - 1.2.8-1
