@@ -6,7 +6,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.1
+Version:        1.4.2
 Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -187,7 +187,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING NEWS README TODO doc/CONTRIBUTORS doc/*.txt
+%doc AUTHORS ChangeLog COPYING NEWS README doc/CONTRIBUTORS doc/*.txt
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 %dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
@@ -207,6 +207,10 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
+* Mon Oct 12 2009 Paul Lindner <lindner@inuus.com> - 1.4.2-1
+- Upgrade to memcached-1.4.2
+- Addresses CVE-2009-2415
+
 * Sat Aug 29 2009 Paul Lindner <lindner@inuus.com> - 1.4.1-1
 - Upgrade to 1.4.1 
 - http://code.google.com/p/memcached/wiki/ReleaseNotes141
