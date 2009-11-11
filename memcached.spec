@@ -6,7 +6,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.2
+Version:        1.4.3
 Release:        1%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -207,6 +207,9 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Nov 11 2009 Paul Lindner <lindner@inuus.com> - 1.4.3-1
+- Upgrade to memcached-1.4.3
+
 * Mon Oct 12 2009 Paul Lindner <lindner@inuus.com> - 1.4.2-1
 - Upgrade to memcached-1.4.2
 - Addresses CVE-2009-2415
