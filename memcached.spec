@@ -12,8 +12,8 @@ Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
 License:        BSD
-URL:            http://www.danga.com/memcached/
-Source0:        http://www.danga.com/memcached/dist/%{name}-%{version}.tar.gz
+URL:            http://www.memcached.org/
+Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 
 # custom init script
 Source1:        memcached.sysv
@@ -61,6 +61,7 @@ SELinux policy module supporting memcached.
 %package devel
 Summary:	Files needed for development using memcached protocol
 Group:		Development/Libraries 
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 Install memcached-devel if you are developing C/C++ applications that require access to the
@@ -73,7 +74,7 @@ cp -p %{SOURCE10} %{SOURCE11} %{SOURCE12} SELinux/
 
 
 %build
-%configure --enable-threads
+%configure
 
 make %{?_smp_mflags}
 
@@ -207,6 +208,11 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
+* Thu Nov 12 2009 Paul Lindner <lindner@mirth.inuus.com> - 1.4.3-1
+- Add explicit require on memcached for memcached-devel (resolves 537046)
+- enable-threads option no longer needed
+- Update web site address
+
 * Wed Nov 11 2009 Paul Lindner <lindner@inuus.com> - 1.4.3-1
 - Upgrade to memcached-1.4.3
 
