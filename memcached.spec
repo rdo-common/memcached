@@ -7,7 +7,7 @@
 
 Name:           memcached
 Version:        1.4.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
