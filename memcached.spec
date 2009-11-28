@@ -6,8 +6,9 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.3
-Release:        2%{?dist}
+Version:        1.4.4
+Release:        1%{?dist}
+Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -50,7 +51,7 @@ BuildRequires:  checkpolicy, selinux-policy-devel, hardlink
 %if "%{selinux_policyver}" != ""
 Requires:       selinux-policy >= %{selinux_policyver}
 %endif
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(post):  policycoreutils
 Requires(postun): policycoreutils
 
@@ -208,7 +209,11 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
-* Thu Nov 12 2009 Paul Lindner <lindner@mirth.inuus.com> - 1.4.3-1
+* Sat Nov 28 2009 Paul Lindner <lindner@inuus.com> - 0:1.4.4-1
+- Upgraded to upstream memcached-1.4.4 (http://code.google.com/p/memcached/wiki/ReleaseNotes144)
+- Add explicit Epoch to fix issue with broken devel dependencies (resolves 542001)
+
+* Thu Nov 12 2009 Paul Lindner <lindner@inuus.com> - 1.4.3-1
 - Add explicit require on memcached for memcached-devel (resolves 537046)
 - enable-threads option no longer needed
 - Update web site address
