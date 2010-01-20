@@ -1,13 +1,9 @@
-%define selinux_variants mls strict targeted 
-%define selinux_policyver %(sed -e 's,.*selinux-policy-\\([^/]*\\)/.*,\\1,' /usr/share/selinux/devel/policyhelp)
-%define modulename memcached
-
 %define username   memcached
 %define groupname  memcached
 
 Name:           memcached
 Version:        1.4.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -18,11 +14,6 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 
 # custom init script
 Source1:        memcached.sysv
-
-# SELinux files
-Source10:       %{modulename}.te
-Source11:       %{modulename}.fc
-Source12:       %{modulename}.if
 
 # Fixes
 
@@ -43,22 +34,6 @@ memcached is a high-performance, distributed memory object caching
 system, generic in nature, but intended for use in speeding up dynamic
 web applications by alleviating database load.
 
-
-%package selinux
-Summary:        SELinux policy module supporting memcached
-Group:          System Environment/Base
-BuildRequires:  checkpolicy, selinux-policy-devel, hardlink
-%if "%{selinux_policyver}" != ""
-Requires:       selinux-policy >= %{selinux_policyver}
-%endif
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(post):  policycoreutils
-Requires(postun): policycoreutils
-
-
-%description selinux
-SELinux policy module supporting memcached.
-
 %package devel
 Summary:	Files needed for development using memcached protocol
 Group:		Development/Libraries 
@@ -70,23 +45,11 @@ memcached binary include files.
 
 %prep
 %setup -q
-mkdir SELinux
-cp -p %{SOURCE10} %{SOURCE11} %{SOURCE12} SELinux/
-
 
 %build
 %configure
 
 make %{?_smp_mflags}
-
-pushd SELinux
-for selinuxvariant in %{selinux_variants}; do
-    make NAME=${selinuxvariant} -f /usr/share/selinux/devel/Makefile
-    mv %{modulename}.pp %{modulename}.pp.${selinuxvariant}
-    make NAME=${selinuxvariant} -f /usr/share/selinux/devel/Makefile clean
-done
-popd
-
 
 %check
 # remove failing test that doesn't work in
@@ -119,19 +82,6 @@ EOF
 # pid directory
 mkdir -p %{buildroot}/%{_localstatedir}/run/memcached
 
-# Install SELinux policy modules
-pushd SELinux
-for selinuxvariant in %{selinux_variants}; do
-    install -d %{buildroot}%{_datadir}/selinux/${selinuxvariant}
-    install -p -m 644 %{modulename}.pp.${selinuxvariant} \
-        %{buildroot}%{_datadir}/selinux/${selinuxvariant}/%{modulename}.pp
-done
-popd
-
-# Hardlink identical policy module packages together
-/usr/sbin/hardlink -cv %{buildroot}%{_datadir}/selinux
-
-
 %clean
 rm -rf %{buildroot}
 
@@ -163,30 +113,6 @@ fi
 exit 0
 
 
-%post selinux
-# Install SELinux policy modules
-for selinuxvariant in %{selinux_variants}
-do
-  /usr/sbin/semodule -s ${selinuxvariant} -i \
-    %{_datadir}/selinux/${selinuxvariant}/%{modulename}.pp &> /dev/null || :
-done
-/usr/sbin/semanage port -a -t memcached_port_t -p tcp 11211 &> /dev/null || :
-/sbin/fixfiles -R %{name} restore || :
-
-
-%postun selinux
-# Clean up after package removal
-if [ $1 -eq 0 ]; then
-  /usr/sbin/semanage port -d -t memcached_port_t -p tcp 11211 &> /dev/null || :
-  # Remove SELinux policy modules
-  for selinuxvariant in %{selinux_variants}
-  do
-    /usr/sbin/semodule -s ${selinuxvariant} -r %{modulename} &> /dev/null || :
-  done
-  /sbin/fixfiles -R %{name} restore || :
-fi
-
-
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS README doc/CONTRIBUTORS doc/*.txt
@@ -199,16 +125,14 @@ fi
 %{_initrddir}/memcached
 
 
-%files selinux
-%defattr(-,root,root,0755)
-%doc SELinux/*.te SELinux/*.fc SELinux/*.if
-%{_datadir}/selinux/*/%{modulename}.pp
-
 %files devel
 %defattr(-,root,root,0755)
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Jan 20 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.4-2
+- Remove SELinux policies fixes Bugzilla 557073
+
 * Sat Nov 28 2009 Paul Lindner <lindner@inuus.com> - 0:1.4.4-1
 - Upgraded to upstream memcached-1.4.4 (http://code.google.com/p/memcached/wiki/ReleaseNotes144)
 - Add explicit Epoch to fix issue with broken devel dependencies (resolves 542001)
