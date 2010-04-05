@@ -2,8 +2,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.4
-Release:        2%{?dist}
+Version:        1.4.5
+Release:        1%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -28,6 +28,9 @@ Requires(pre):  shadow-utils
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig, /sbin/service
 Requires(postun): /sbin/service
+
+# as of 3.5.5-4 selinux has memcache included
+Obsoletes: memcached-selinux
 
 %description
 memcached is a high-performance, distributed memory object caching
@@ -130,6 +133,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Sun Apr  4 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-1
+- Upgrade to upstream memcached-1.4.5 (http://code.google.com/p/memcached/wiki/ReleaseNotes145)
+
 * Wed Jan 20 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.4-2
 - Remove SELinux policies fixes Bugzilla 557073
 
