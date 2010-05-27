@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -55,10 +55,13 @@ memcached binary include files.
 make %{?_smp_mflags}
 
 %check
-# remove failing test that doesn't work in
-# build systems
-rm -f t/daemonize.t 
-make test
+# Parts of the test suite only succeed as non-root.
+if [ `id -u` -ne 0 ]; then
+  # remove failing test that doesn't work in
+  # build systems
+  rm -f t/daemonize.t 
+  make test
+fi
 
 %install
 rm -rf %{buildroot}
@@ -81,6 +84,9 @@ MAXCONN="1024"
 CACHESIZE="64"
 OPTIONS=""
 EOF
+
+# Constant timestamp on the config file.
+touch -r %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 
 # pid directory
 mkdir -p %{buildroot}/%{_localstatedir}/run/memcached
@@ -133,6 +139,11 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed May 26 2010 Joe Orton <jorton@redhat.com> - 0:1.4.5-2
+- LSB compliance fixes for init script
+- don't run the test suite as root
+- ensure a constant timestamp on the sysconfig file
+
 * Sun Apr  4 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-1
 - Upgrade to upstream memcached-1.4.5 (http://code.google.com/p/memcached/wiki/ReleaseNotes145)
 
