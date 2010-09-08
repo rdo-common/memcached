@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -14,6 +14,10 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 
 # custom init script
 Source1:        memcached.sysv
+
+# Patches
+# From http://code.google.com/p/memcached/issues/detail?id=60
+Patch001: memcached-1.4.5-issue60.diff
 
 # Fixes
 
@@ -48,6 +52,7 @@ memcached binary include files.
 
 %prep
 %setup -q
+%patch001 -p1
 
 %build
 %configure
@@ -55,13 +60,16 @@ memcached binary include files.
 make %{?_smp_mflags}
 
 %check
+# whitespace tests fail locally on fedpkg systems now that they use git
+rm -f t/whitespace.t
+
 # Parts of the test suite only succeed as non-root.
 if [ `id -u` -ne 0 ]; then
   # remove failing test that doesn't work in
   # build systems
   rm -f t/daemonize.t 
-  make test
 fi
+make test
 
 %install
 rm -rf %{buildroot}
@@ -139,6 +147,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Sep  8 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-3
+- Apply patch from memcached issue #60, solves Bugzilla 631051
+
 * Wed May 26 2010 Joe Orton <jorton@redhat.com> - 0:1.4.5-2
 - LSB compliance fixes for init script
 - don't run the test suite as root
