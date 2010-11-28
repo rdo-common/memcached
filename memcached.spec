@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -135,7 +135,7 @@ exit 0
 %doc AUTHORS ChangeLog COPYING NEWS README doc/CONTRIBUTORS doc/*.txt
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
-%dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
+%ghost %dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
 %{_bindir}/memcached-tool
 %{_bindir}/memcached
 %{_mandir}/man1/memcached.1*
@@ -147,6 +147,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Sun Nov 28 2010 Paul Lindner <lindner@mirth.inuus.com> - 0:1.4.5-4
+- Add code to deal with /var/run/memcached on tmpfs
+
 * Wed Sep  8 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-3
 - Apply patch from memcached issue #60, solves Bugzilla 631051
 
