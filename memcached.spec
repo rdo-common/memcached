@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -147,10 +147,13 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Mon Feb 14 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.5-6
+- Rebuild for updated libevent
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.4.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
-* Sun Nov 28 2010 Paul Lindner <lindner@mirth.inuus.com> - 0:1.4.5-4
+* Sun Nov 28 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-4
 - Add code to deal with /var/run/memcached on tmpfs
 
 * Wed Sep  8 2010 Paul Lindner <lindner@inuus.com> - 0:1.4.5-3
