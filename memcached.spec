@@ -18,7 +18,6 @@ Source1:        memcached.sysv
 # Patches
 # From http://code.google.com/p/memcached/issues/detail?id=60
 Patch001: memcached-1.4.5-issue60.diff
-Patch002: memcached-1.4.5-warnings.patch
 
 # Fixes
 
@@ -54,11 +53,10 @@ memcached binary include files.
 %prep
 %setup -q
 %patch001 -p1
-%patch002 -p1 -b .warnings
 
 %build
 %configure
-
+sed -i 's/-Werror/ /' Makefile
 make %{?_smp_mflags}
 
 %check
