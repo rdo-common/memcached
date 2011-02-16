@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.5
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -18,6 +18,7 @@ Source1:        memcached.sysv
 # Patches
 # From http://code.google.com/p/memcached/issues/detail?id=60
 Patch001: memcached-1.4.5-issue60.diff
+Patch002: memcached-1.4.5-warnings.patch
 
 # Fixes
 
@@ -53,6 +54,7 @@ memcached binary include files.
 %prep
 %setup -q
 %patch001 -p1
+%patch002 -p1 -b .warnings
 
 %build
 %configure
@@ -147,6 +149,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Feb 16 2011 Joe Orton <jorton@redhat.com> - 0:1.4.5-7
+- fix build
+
 * Mon Feb 14 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.5-6
 - Rebuild for updated libevent
 
