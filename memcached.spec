@@ -16,8 +16,6 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1:        memcached.sysv
 
 # Patches
-# From http://code.google.com/p/memcached/issues/detail?id=60
-#Patch001: memcached-1.4.5-issue60.diff
 
 # Fixes
 
@@ -52,7 +50,6 @@ memcached binary include files.
 
 %prep
 %setup -q
-#%patch001 -p1
 
 %build
 %configure
