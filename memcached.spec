@@ -56,7 +56,7 @@ memcached binary include files.
 
 %build
 %configure
-
+sed -i 's/-Werror/ /' Makefile
 make %{?_smp_mflags}
 
 %check
@@ -149,6 +149,9 @@ exit 0
 %changelog
 * Tue Aug  2 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.6-1
 - Upgrade to memcached-1.4.6
+
+* Wed Feb 16 2011 Joe Orton <jorton@redhat.com> - 0:1.4.5-7
+- fix build
 
 * Mon Feb 14 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.5-6
 - Rebuild for updated libevent
