@@ -2,8 +2,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.5
-Release:        6%{?dist}
+Version:        1.4.6
+Release:        1%{?dist}
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -17,7 +17,7 @@ Source1:        memcached.sysv
 
 # Patches
 # From http://code.google.com/p/memcached/issues/detail?id=60
-Patch001: memcached-1.4.5-issue60.diff
+#Patch001: memcached-1.4.5-issue60.diff
 
 # Fixes
 
@@ -52,7 +52,7 @@ memcached binary include files.
 
 %prep
 %setup -q
-%patch001 -p1
+#%patch001 -p1
 
 %build
 %configure
@@ -147,6 +147,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Aug  2 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.6-1
+- Upgrade to memcached-1.4.6
+
 * Mon Feb 14 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.5-6
 - Rebuild for updated libevent
 
