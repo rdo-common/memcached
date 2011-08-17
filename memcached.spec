@@ -2,9 +2,9 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.6
+Version:        1.4.7
 Release:        1%{?dist}
-Epoch:		0
+Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
 Group:          System Environment/Daemons
@@ -25,7 +25,6 @@ BuildRequires:  libevent-devel
 BuildRequires:  perl(Test::More)
 
 Requires: initscripts
-Requires: libevent
 Requires(pre):  shadow-utils
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig, /sbin/service
@@ -40,13 +39,13 @@ system, generic in nature, but intended for use in speeding up dynamic
 web applications by alleviating database load.
 
 %package devel
-Summary:	Files needed for development using memcached protocol
-Group:		Development/Libraries 
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Summary: Files needed for development using memcached protocol
+Group: Development/Libraries
+Requires: %{name} = %{epoch}:%{version}-%{release}
 
 %description devel
-Install memcached-devel if you are developing C/C++ applications that require access to the
-memcached binary include files.
+Install memcached-devel if you are developing C/C++ applications that require
+access to the memcached binary include files.
 
 %prep
 %setup -q
@@ -64,13 +63,13 @@ rm -f t/whitespace.t
 if [ `id -u` -ne 0 ]; then
   # remove failing test that doesn't work in
   # build systems
-  rm -f t/daemonize.t 
+  rm -f t/daemonize.t
 fi
 make test
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} INSTALL="%{__install} -p"                                         
+make install DESTDIR=%{buildroot} INSTALL="%{__install} -p"
 # remove memcached-debug
 rm -f %{buildroot}/%{_bindir}/memcached-debug
 
@@ -144,6 +143,10 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Aug 16 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.7-1
+- Upgrade to memcached 1.4.7 (http://code.google.com/p/memcached/wiki/ReleaseNotes147)
+- Fix some rpmlint errors/warnings.
+
 * Tue Aug  2 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.6-1
 - Upgrade to memcached-1.4.6
 
@@ -190,7 +193,7 @@ exit 0
 - Addresses CVE-2009-2415
 
 * Sat Aug 29 2009 Paul Lindner <lindner@inuus.com> - 1.4.1-1
-- Upgrade to 1.4.1 
+- Upgrade to 1.4.1
 - http://code.google.com/p/memcached/wiki/ReleaseNotes141
 
 * Wed Apr 29 2009 Paul Lindner <lindner@inuus.com> - 1.2.8-1
