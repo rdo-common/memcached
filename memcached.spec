@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.7
+Version:        1.4.10
 Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -143,6 +143,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Nov  9 2011 Paul Lindner <lindner@mirth.inuus.com> - 0:1.4.10-1
+- Upgrade to memcached 1.4.10 (http://code.google.com/p/memcached/wiki/ReleaseNotes1410)
+
 * Tue Aug 16 2011 Paul Lindner <lindner@inuus.com> - 0:1.4.7-1
 - Upgrade to memcached 1.4.7 (http://code.google.com/p/memcached/wiki/ReleaseNotes147)
 - Fix some rpmlint errors/warnings.
