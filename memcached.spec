@@ -2,8 +2,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.10
-Release:        2%{?dist}
+Version:        1.4.13
+Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -143,6 +143,12 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Feb  7 2012 Paul Lindner <lindner@mirth.inuus.com> - 0:1.4.13-1
+- Upgrade to memcached 1.4.13
+- http://code.google.com/p/memcached/wiki/ReleaseNotes1413
+- http://code.google.com/p/memcached/wiki/ReleaseNotes1412
+- http://code.google.com/p/memcached/wiki/ReleaseNotes1411
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.4.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
