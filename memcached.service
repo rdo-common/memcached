@@ -1,0 +1,13 @@
+[Unit]
+Description=Memcached 
+Before=httpd.service
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/sysconfig/memcached
+PIDFile=/var/run/memcached/memcached.pid
+ExecStart=/usr/bin/memcached -d -u $USER -P /var/run/memcached/memcached.pid -p $PORT -m $CACHESIZE -c $MAXCONN $OPTIONS
+
+[Install]
+WantedBy=multi-user.target

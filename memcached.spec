@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -12,8 +12,9 @@ License:        BSD
 URL:            http://www.memcached.org/
 Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 
-# custom init script
-Source1:        memcached.sysv
+# custom unit file
+Source1:        memcached.service
+Source2:        %{name}-tmpfiles.conf
 
 # Patches
 
@@ -24,11 +25,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libevent-devel
 BuildRequires:  perl(Test::More)
 
-Requires: initscripts
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+# For triggerun
+Requires(post): systemd-sysv
 Requires(pre):  shadow-utils
-Requires(post): /sbin/chkconfig
-Requires(preun): /sbin/chkconfig, /sbin/service
-Requires(postun): /sbin/service
+
 
 # as of 3.5.5-4 selinux has memcache included
 Obsoletes: memcached-selinux
@@ -76,8 +79,8 @@ rm -f %{buildroot}/%{_bindir}/memcached-debug
 # Perl script for monitoring memcached
 install -Dp -m0755 scripts/memcached-tool %{buildroot}%{_bindir}/memcached-tool
 
-# Init script
-install -Dp -m0755 %{SOURCE1} %{buildroot}%{_initrddir}/memcached
+# Unit file
+install -Dp -m0644 %{SOURCE1} %{buildroot}%{_unitdir}/memcached.service
 
 # Default configs
 mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
@@ -93,7 +96,10 @@ EOF
 touch -r %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 
 # pid directory
-mkdir -p %{buildroot}/%{_localstatedir}/run/memcached
+mkdir -p %{buildroot}%{_localstatedir}/run/memcached
+
+mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
+install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
@@ -108,22 +114,36 @@ exit 0
 
 
 %post
-/sbin/chkconfig --add %{name}
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
 
 
 %preun
-if [ "$1" = 0 ] ; then
-    /sbin/service %{name} stop > /dev/null 2>&1
-    /sbin/chkconfig --del %{name}
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable memcached.service > /dev/null 2>&1 || :
+    /bin/systemctl stop memcached.service > /dev/null 2>&1 || :
 fi
-exit 0
 
 
 %postun
-if [ "$1" -ge 1 ]; then
-    /sbin/service %{name} condrestart > /dev/null 2>&1
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart memcached.service >/dev/null 2>&1 || :
 fi
-exit 0
+
+%triggerun -- memcached < 0:1.4.13-2
+# Save the current service runlevel info
+# User must manually run systemd-sysv-convert --apply memcached
+# to migrate them to systemd targets
+/usr/bin/systemd-sysv-convert --save memcached >/dev/null 2>&1 ||:
+
+# Run these because the SysV package being removed won't do them
+/sbin/chkconfig --del memcached >/dev/null 2>&1 || :
+/bin/systemctl try-restart memcached.service >/dev/null 2>&1 || :
 
 
 %files
@@ -131,11 +151,12 @@ exit 0
 %doc AUTHORS ChangeLog COPYING NEWS README doc/CONTRIBUTORS doc/*.txt
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
-%ghost %dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
+%dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
 %{_bindir}/memcached-tool
 %{_bindir}/memcached
 %{_mandir}/man1/memcached.1*
-%{_initrddir}/memcached
+%{_unitdir}/memcached.service
+%config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 
 %files devel
@@ -143,6 +164,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Fri May 04 2012 Jon Ciesla <limburgher@gmail.com> - 0:1.4.13-2
+- Migrate to systemd, 783112.
+
 * Tue Feb  7 2012 Paul Lindner <lindner@mirth.inuus.com> - 0:1.4.13-1
 - Upgrade to memcached 1.4.13
 - http://code.google.com/p/memcached/wiki/ReleaseNotes1413
