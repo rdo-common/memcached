@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -164,6 +164,9 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
+* Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.4.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Fri May 04 2012 Jon Ciesla <limburgher@gmail.com> - 0:1.4.13-2
 - Migrate to systemd, 783112.
 
