@@ -2,8 +2,8 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.13
-Release:        3%{?dist}
+Version:        1.4.15
+Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -14,7 +14,6 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 
 # custom unit file
 Source1:        memcached.service
-Source2:        %{name}-tmpfiles.conf
 
 # Patches
 
@@ -25,9 +24,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libevent-devel
 BuildRequires:  perl(Test::More)
 
-Requires(post): systemd-units
-Requires(preun): systemd-units
-Requires(postun): systemd-units
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 # For triggerun
 Requires(post): systemd-sysv
 Requires(pre):  shadow-utils
@@ -95,12 +94,6 @@ EOF
 # Constant timestamp on the config file.
 touch -r %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 
-# pid directory
-mkdir -p %{buildroot}%{_localstatedir}/run/memcached
-
-mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
-install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
-
 %clean
 rm -rf %{buildroot}
 
@@ -108,32 +101,21 @@ rm -rf %{buildroot}
 %pre
 getent group %{groupname} >/dev/null || groupadd -r %{groupname}
 getent passwd %{username} >/dev/null || \
-useradd -r -g %{groupname} -d %{_localstatedir}/run/memcached \
+useradd -r -g %{groupname} -d /run/memcached \
     -s /sbin/nologin -c "Memcached daemon" %{username}
 exit 0
 
 
 %post
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post memcached.service
 
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable memcached.service > /dev/null 2>&1 || :
-    /bin/systemctl stop memcached.service > /dev/null 2>&1 || :
-fi
+%systemd_preun memcached.service
 
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart memcached.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart memcached.service
 
 %triggerun -- memcached < 0:1.4.13-2
 # Save the current service runlevel info
@@ -148,15 +130,12 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING NEWS README doc/CONTRIBUTORS doc/*.txt
+%doc AUTHORS ChangeLog COPYING NEWS README.md doc/CONTRIBUTORS doc/*.txt
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-
-%dir %attr(755,%{username},%{groupname}) %{_localstatedir}/run/memcached
 %{_bindir}/memcached-tool
 %{_bindir}/memcached
 %{_mandir}/man1/memcached.1*
 %{_unitdir}/memcached.service
-%config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 
 %files devel
@@ -164,6 +143,11 @@ fi
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Nov 20 2012 Joe Orton <jorton@redhat.com> - 0:1.4.15-1
+- update to 1.4.15 (#782395)
+- switch to simple systemd service (#878198)
+- use systemd scriptlet macros (Václav Pavlín, #850204)
+
 * Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.4.13-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
