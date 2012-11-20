@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -22,7 +22,7 @@ Source1:        memcached.service
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libevent-devel
-BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Test::More), perl(Test::Harness)
 
 Requires(post): systemd
 Requires(preun): systemd
@@ -143,6 +143,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Nov 20 2012 Joe Orton <jorton@redhat.com> - 0:1.4.15-2
+- BR perl(Test::Harness)
+
 * Tue Nov 20 2012 Joe Orton <jorton@redhat.com> - 0:1.4.15-1
 - update to 1.4.15 (#782395)
 - switch to simple systemd service (#878198)
