@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -147,6 +147,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Thu Dec 20 2012 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.15-3
+- compile with full RELRO
+
 * Tue Nov 20 2012 Joe Orton <jorton@redhat.com> - 0:1.4.15-2
 - BR perl(Test::Harness)
 
