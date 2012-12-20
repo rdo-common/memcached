@@ -53,6 +53,10 @@ access to the memcached binary include files.
 %setup -q
 
 %build
+# compile with full RELRO
+export CFLAGS="%{optflags} -pie -fpie"
+export LDFLAGS="-Wl,-z,relro,-z,now"
+
 %configure
 sed -i 's/-Werror/ /' Makefile
 make %{?_smp_mflags}
