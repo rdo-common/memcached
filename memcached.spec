@@ -16,6 +16,7 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1:        memcached.service
 
 # Patches
+Patch001:       memcached-manpages.patch
 
 # Fixes
 
@@ -51,6 +52,7 @@ access to the memcached binary include files.
 
 %prep
 %setup -q
+%patch001 -p1 -b .manpages
 
 %build
 # compile with full RELRO
@@ -81,6 +83,8 @@ rm -f %{buildroot}/%{_bindir}/memcached-debug
 
 # Perl script for monitoring memcached
 install -Dp -m0755 scripts/memcached-tool %{buildroot}%{_bindir}/memcached-tool
+install -Dp -m0644 scripts/memcached-tool.1 \
+        %{buildroot}%{_mandir}/man1/memcached-tool.1
 
 # Unit file
 install -Dp -m0644 %{SOURCE1} %{buildroot}%{_unitdir}/memcached.service
@@ -138,6 +142,7 @@ exit 0
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %{_bindir}/memcached-tool
 %{_bindir}/memcached
+%{_mandir}/man1/memcached-tool.1*
 %{_mandir}/man1/memcached.1*
 %{_unitdir}/memcached.service
 
