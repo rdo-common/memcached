@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.15
+Version:        1.4.17
 Release:        7%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache

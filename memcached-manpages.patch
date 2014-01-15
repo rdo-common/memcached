@@ -1,15 +1,14 @@
-From 8cf9b071c77f1f305f4bae795166da8e7daab179 Mon Sep 17 00:00:00 2001
+From 5ef6d397a0cc40047e8ac50c0ea7fc49f16435aa Mon Sep 17 00:00:00 2001
 From: Miroslav Lichvar <mlichvar@redhat.com>
 Date: Tue, 2 Jul 2013 13:54:04 +0200
-Subject: [PATCH 1/2] describe -b and -S options in man page
+Subject: [PATCH 1/3] describe -b and -S options in man page
 
 ---
  doc/memcached.1 | 7 +++++++
- memcached.c     | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ 1 file changed, 7 insertions(+)
 
 diff --git a/doc/memcached.1 b/doc/memcached.1
-index b6f633d..7e72e2e 100644
+index 287e87f..8ee749a 100644
 --- a/doc/memcached.1
 +++ b/doc/memcached.1
 @@ -119,6 +119,9 @@ could reduce the number of TLB misses and improve the performance. In order to
@@ -30,14 +29,26 @@ index b6f633d..7e72e2e 100644
 +Turn on SASL authentication. This option is only meaningful if memcached was
 +compiled with SASL support enabled.
 +.TP
- .B \-o <options>
- Comma separated list of extended or experimental options. See -h or wiki for
- up to date list.
+ .B \-F
+ Disables the "flush_all" command. The cmd_flush counter will increment, but
+ clients will receive an error message and the flush will not occur.
+-- 
+1.8.4.2
+
+From a7fe32807cb49cb7329dfc70ad28f581aa9a49ca Mon Sep 17 00:00:00 2001
+From: Miroslav Lichvar <mlichvar@redhat.com>
+Date: Wed, 15 Jan 2014 11:00:16 +0100
+Subject: [PATCH 2/3] fix usage text for -b option
+
+---
+ memcached.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/memcached.c b/memcached.c
-index 35f6f4d..dc8b770 100644
+index ffe2204..b7c49d0 100644
 --- a/memcached.c
 +++ b/memcached.c
-@@ -4498,7 +4498,7 @@ static void usage(void) {
+@@ -4616,7 +4616,7 @@ static void usage(void) {
             "              requests process for a given connection to prevent \n"
             "              starvation (default: 20)\n");
      printf("-C            Disable use of CAS\n");
@@ -47,12 +58,12 @@ index 35f6f4d..dc8b770 100644
      printf("-I            Override the size of each slab page. Adjusts max item size\n"
             "              (default: 1mb, min: 1k, max: 128m)\n");
 -- 
-1.8.1.4
+1.8.4.2
 
-From 6f9f9fe20d4b591c5b392660460fdd0e9cf2ca58 Mon Sep 17 00:00:00 2001
+From 330bf108df14e39e11f9be7fdcb25e295cdb949b Mon Sep 17 00:00:00 2001
 From: Miroslav Lichvar <mlichvar@redhat.com>
 Date: Tue, 2 Jul 2013 17:15:03 +0200
-Subject: [PATCH 2/2] add man page for memcached-tool
+Subject: [PATCH 3/3] add man page for memcached-tool
 
 ---
  scripts/memcached-tool.1 | 71 ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -137,5 +148,5 @@ index 0000000..6bb021b
 +The memcached-tool script was written by Brad Fitzpatrick
 +.B <brad@danga.com>
 -- 
-1.8.1.4
+1.8.4.2
 
