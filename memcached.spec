@@ -153,6 +153,7 @@ exit 0
 %changelog
 * Wed Jan 15 2014 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.17-1
 - update to 1.4.17
+- fix building with -Werror=format-security in CFLAGS
 
 * Wed Aug 07 2013 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.15-7
 - buildrequire systemd-units (#992221)
