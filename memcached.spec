@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.17
-Release:        7%{?dist}
+Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -152,6 +152,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Jan 15 2014 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.17-1
+- update to 1.4.17
+
 * Wed Aug 07 2013 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.15-7
 - buildrequire systemd-units (#992221)
 - update memcached man page
