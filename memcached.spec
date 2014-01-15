@@ -10,7 +10,7 @@ Summary:        High Performance, Distributed Memory Object Cache
 Group:          System Environment/Daemons
 License:        BSD
 URL:            http://www.memcached.org/
-Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
+Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
 
 # custom unit file
 Source1:        memcached.service
