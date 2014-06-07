@@ -3,7 +3,7 @@
 
 Name:           memcached
 Version:        1.4.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -151,6 +151,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.4.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Wed Jan 15 2014 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.17-1
 - update to 1.4.17
 - fix building with -Werror=format-security in CFLAGS
