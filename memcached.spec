@@ -4,7 +4,7 @@
 
 Name:           memcached
 Version:        1.4.25
-Release:        5%{?dist}
+Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -143,6 +143,11 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Feb 23 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.25-1
+- update to 1.4.25
+- enable SASL support (#815050)
+- remove obsolete macros
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.4.17-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
