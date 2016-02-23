@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.17
+Version:        1.4.25
 Release:        5%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -14,11 +14,6 @@ Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
 
 # custom unit file
 Source1:        memcached.service
-
-# Patches
-Patch001:       memcached-manpages.patch
-
-# Fixes
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -52,7 +47,6 @@ access to the memcached binary include files.
 
 %prep
 %setup -q
-%patch001 -p1 -b .manpages
 
 %build
 # compile with full RELRO
