@@ -1,5 +1,6 @@
 %define username   memcached
 %define groupname  memcached
+%bcond_without sasl
 
 Name:           memcached
 Version:        1.4.25
@@ -19,6 +20,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libevent-devel systemd-units
 BuildRequires:  perl(Test::More), perl(Test::Harness)
+%{?with_sasl:BuildRequires: cyrus-sasl-devel}
 
 Requires(post): systemd
 Requires(preun): systemd
@@ -53,7 +55,9 @@ access to the memcached binary include files.
 export CFLAGS="%{optflags} -pie -fpie"
 export LDFLAGS="-Wl,-z,relro,-z,now"
 
-%configure
+%configure \
+  %{?with_sasl: --enable-sasl}
+
 make %{?_smp_mflags}
 
 %check
