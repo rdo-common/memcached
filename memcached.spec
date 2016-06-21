@@ -143,6 +143,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Jun 21 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.26-1
+- update to 1.4.26
+
 * Tue Feb 23 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.25-1
 - update to 1.4.25
 - enable SASL support (#815050)
