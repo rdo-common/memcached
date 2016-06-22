@@ -68,7 +68,7 @@ rm -f t/whitespace.t
 if [ `id -u` -ne 0 ]; then
   # remove failing test that doesn't work in
   # build systems
-  rm -f t/daemonize.t
+  rm -f t/daemonize.t t/watcher.t t/expirations.t
 fi
 make test
 
