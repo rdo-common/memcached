@@ -19,6 +19,7 @@ Source1:        memcached.service
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libevent-devel systemd-units
+BuildRequires:  perl-generators
 BuildRequires:  perl(Test::More), perl(Test::Harness)
 %{?with_sasl:BuildRequires: cyrus-sasl-devel}
 
