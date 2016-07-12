@@ -12,9 +12,9 @@ Group:          System Environment/Daemons
 License:        BSD
 URL:            http://www.memcached.org/
 Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
+Source1:        memcached.sysconfig
 
-# custom unit file
-Source1:        memcached.service
+Patch1:         memcached-unit.patch
 
 BuildRequires:  libevent-devel systemd-units
 BuildRequires:  perl-generators
@@ -42,6 +42,7 @@ access to the memcached binary include files.
 
 %prep
 %setup -q
+%patch1 -p1 -b .unit
 
 %build
 # compile with full RELRO
@@ -76,20 +77,11 @@ install -Dp -m0644 scripts/memcached-tool.1 \
         %{buildroot}%{_mandir}/man1/memcached-tool.1
 
 # Unit file
-install -Dp -m0644 %{SOURCE1} %{buildroot}%{_unitdir}/memcached.service
+install -Dp -m0644 scripts/memcached.service \
+        %{buildroot}%{_unitdir}/memcached.service
 
 # Default configs
-mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
-cat <<EOF >%{buildroot}/%{_sysconfdir}/sysconfig/%{name}
-PORT="11211"
-USER="%{username}"
-MAXCONN="1024"
-CACHESIZE="64"
-OPTIONS=""
-EOF
-
-# Constant timestamp on the config file.
-touch -r %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
+install -Dp -m0644 %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 
 
 %pre
