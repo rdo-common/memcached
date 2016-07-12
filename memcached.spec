@@ -16,8 +16,6 @@ Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
 # custom unit file
 Source1:        memcached.service
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 BuildRequires:  libevent-devel systemd-units
 BuildRequires:  perl-generators
 BuildRequires:  perl(Test::More), perl(Test::Harness)
@@ -26,13 +24,7 @@ BuildRequires:  perl(Test::More), perl(Test::Harness)
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
-# For triggerun
-Requires(post): systemd-sysv
 Requires(pre):  shadow-utils
-
-
-# as of 3.5.5-4 selinux has memcache included
-Obsoletes: memcached-selinux
 
 %description
 memcached is a high-performance, distributed memory object caching
@@ -118,16 +110,6 @@ exit 0
 
 %postun
 %systemd_postun_with_restart memcached.service
-
-%triggerun -- memcached < 0:1.4.13-2
-# Save the current service runlevel info
-# User must manually run systemd-sysv-convert --apply memcached
-# to migrate them to systemd targets
-/usr/bin/systemd-sysv-convert --save memcached >/dev/null 2>&1 ||:
-
-# Run these because the SysV package being removed won't do them
-/sbin/chkconfig --del memcached >/dev/null 2>&1 || :
-/bin/systemctl try-restart memcached.service >/dev/null 2>&1 || :
 
 
 %files
