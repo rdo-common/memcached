@@ -118,6 +118,12 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Jul 12 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.28-1
+- update to 1.4.28
+- listen only on loopback interface by default (#1182542)
+- use upstream unit file (#1350939)
+- remove obsolete macros and scriptlet
+
 * Tue Jun 21 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.26-1
 - update to 1.4.26
 
