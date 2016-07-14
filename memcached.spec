@@ -118,6 +118,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Thu Jul 14 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.29-1
+- update to 1.4.29
+
 * Tue Jul 12 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.28-1
 - update to 1.4.28
 - listen only on loopback interface by default (#1182542)
