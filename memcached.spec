@@ -3,7 +3,7 @@
 %bcond_without sasl
 
 Name:           memcached
-Version:        1.4.28
+Version:        1.4.29
 Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
