@@ -118,6 +118,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Fri Aug 12 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.30-1
+- update to 1.4.30
+
 * Thu Jul 14 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.29-1
 - update to 1.4.29
 
