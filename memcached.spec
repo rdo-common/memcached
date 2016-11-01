@@ -121,6 +121,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Nov 01 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.33-1
+- update to 1.4.33 (CVE-2016-8704, CVE-2016-8705, CVE-2016-8706)
+
 * Thu Oct 13 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.32-1
 - update to 1.4.32
 
