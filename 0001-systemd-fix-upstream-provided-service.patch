@@ -1,0 +1,36 @@
+From 4bd006f782bfc05901d8d9663666fac9236af64e Mon Sep 17 00:00:00 2001
+From: Haikel Guemar <hguemar@fedoraproject.org>
+Date: Wed, 2 Nov 2016 19:44:38 +0100
+Subject: [PATCH] systemd: fix upstream provided service
+
+memcached fails if you try to change connection limits when dropping
+capabilities.
+
+Issue reported upstream: https://github.com/memcached/memcached/issues/218
+---
+ scripts/memcached.service | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/memcached.service b/scripts/memcached.service
+index a96445b..da08bf3 100644
+--- a/scripts/memcached.service
++++ b/scripts/memcached.service
+@@ -11,6 +11,7 @@
+ 
+ [Unit]
+ Description=memcached daemon
++Before=httpd.service
+ After=network.target
+ 
+ [Service]
+@@ -35,6 +36,7 @@ PrivateDevices=true
+ 
+ # Required for dropping privileges and running as a different user
+ CapabilityBoundingSet=CAP_SETGID CAP_SETUID
++LimitNOFILE=16384
+ 
+ # Attempts to create memory mappings that are writable and executable at the same time,
+ # or to change existing memory mappings to become executable are prohibited.
+-- 
+2.9.3
+

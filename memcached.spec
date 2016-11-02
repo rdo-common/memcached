@@ -4,7 +4,7 @@
 
 Name:           memcached
 Version:        1.4.33
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -14,7 +14,8 @@ URL:            http://www.memcached.org/
 Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
 Source1:        memcached.sysconfig
 
-Patch1:         memcached-unit.patch
+# https://github.com/memcached/memcached/issues/218
+Patch1:         0001-systemd-fix-upstream-provided-service.patch
 
 BuildRequires:  libevent-devel systemd-units
 BuildRequires:  perl-generators
@@ -121,6 +122,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Nov  2 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 0:1.4.33-2
+- Fix systemd service when setting limits
+
 * Tue Nov 01 2016 Miroslav Lichvar <mlichvar@redhat.com> - 0:1.4.33-1
 - update to 1.4.33 (CVE-2016-8704, CVE-2016-8705, CVE-2016-8706)
 
