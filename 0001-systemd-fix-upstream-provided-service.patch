@@ -1,4 +1,4 @@
-From 4bd006f782bfc05901d8d9663666fac9236af64e Mon Sep 17 00:00:00 2001
+From da6d92b3eb5e671c7f45b8638722705d8e6d24b3 Mon Sep 17 00:00:00 2001
 From: Haikel Guemar <hguemar@fedoraproject.org>
 Date: Wed, 2 Nov 2016 19:44:38 +0100
 Subject: [PATCH] systemd: fix upstream provided service
@@ -7,12 +7,20 @@ memcached fails if you try to change connection limits when dropping
 capabilities.
 
 Issue reported upstream: https://github.com/memcached/memcached/issues/218
+
 ---
- scripts/memcached.service | 2 ++
- 1 file changed, 2 insertions(+)
+
+Drop MemoryDenyWriteExecute configuration key in systemd unit as it's
+supported by systemd from version 231 onwards which is unavailable on
+EL7.
+
+Closes-Bug: rhbz#1408314
+---
+ scripts/memcached.service | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/memcached.service b/scripts/memcached.service
-index a96445b..da08bf3 100644
+index 2bfbb67..1bb9d33 100644
 --- a/scripts/memcached.service
 +++ b/scripts/memcached.service
 @@ -11,6 +11,7 @@
@@ -23,14 +31,20 @@ index a96445b..da08bf3 100644
  After=network.target
  
  [Service]
-@@ -35,6 +36,7 @@ PrivateDevices=true
+@@ -35,10 +36,12 @@ PrivateDevices=true
  
  # Required for dropping privileges and running as a different user
- CapabilityBoundingSet=CAP_SETGID CAP_SETUID
+ CapabilityBoundingSet=CAP_SETGID CAP_SETUID CAP_SYS_RESOURCE
 +LimitNOFILE=16384
  
  # Attempts to create memory mappings that are writable and executable at the same time,
  # or to change existing memory mappings to become executable are prohibited.
+-MemoryDenyWriteExecute=true
++# XXX: this property is supported with systemd 231+ which is not yet on EL7
++# MemoryDenyWriteExecute=true
+ 
+ # Explicit module loading will be denied. This allows to turn off module load and unload
+ # operations on modular kernels. It is recommended to turn this on for most services that
 -- 
-2.9.3
+2.13.3
 

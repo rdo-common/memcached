@@ -3,8 +3,8 @@
 %bcond_without sasl
 
 Name:           memcached
-Version:        1.4.33
-Release:        2%{?dist}
+Version:        1.4.39
+Release:        1%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -122,6 +122,10 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Fri Aug  4 2017 Haïkel Guémar <hguemar@fedoraproject.org> - 0:1.4.39-1
+- update to 1.4.39 (CVE-2017-9951)
+- Fix systemd unit on EL7 (RHBZ#1396590)
+
 * Wed Nov  2 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 0:1.4.33-2
 - Fix systemd service when setting limits
 
